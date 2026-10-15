@@ -51,6 +51,10 @@ public class UShopImporter {
 			int buyPrice = shopConfig.getInt("buyPrice");
 			int sellPrice = shopConfig.getInt("sellPrice");
 
+			// UltimateShops uses 0 for "not buying/selling"; in Slabbo 0 is free and -1 is disabled.
+			if (buyPrice <= 0) buyPrice = -1;
+			if (sellPrice <= 0) sellPrice = -1;
+
 			int quantity = shopConfig.getInt("stack");
 
 			int stock = shopConfig.getInt("amount");
@@ -63,7 +67,8 @@ public class UShopImporter {
 
 			Location shopLocation = ShopManager.fromString(key);
 
-			Shop shop = new Shop(buyPrice, sellPrice, quantity, shopLocation, itemStack, stock, shopOwnerUUID, isAdmin, null);
+			// "" rather than null: ChestLinkManager calls isEmpty() on linkedChestLocation.
+			Shop shop = new Shop(buyPrice, sellPrice, quantity, shopLocation, itemStack, stock, shopOwnerUUID, isAdmin, "");
 
 			shops.add(shop);
 		}

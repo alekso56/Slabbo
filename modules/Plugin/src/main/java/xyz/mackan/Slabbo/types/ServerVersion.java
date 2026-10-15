@@ -10,7 +10,9 @@ public class ServerVersion {
 
         int[] parsed = new int[3];
 
+        // Paper 26.x reports e.g. "26.3.build.190-stable": stop at the first non-numeric part.
         for (int i = 0; i < Math.min(3, parts.length); i++) {
+            if (!parts[i].matches("\\d+")) break;
             parsed[i] = Integer.parseInt(parts[i]);
         }
 
